@@ -51,7 +51,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-
       - name: Snyk Security Scan
         uses: snyk/actions/maven@master
         continue-on-error: true
@@ -68,6 +67,10 @@ jobs:
     # Ensures ZAP runs even if Snyk fails
     if: ${{ always() }}
 
+    permissions:
+      contents: read
+      issues: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -76,3 +79,4 @@ jobs:
         uses: zaproxy/action-baseline@v0.14.0
         with:
           target: "https://www.zaproxy.org"
+          allow_issue_writing: false
